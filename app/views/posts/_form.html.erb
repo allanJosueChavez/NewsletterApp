@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-
+  <%= form.hidden_field :newsletters_id, value: params[:newsletter_id] %>
   <div>
     <%= form.label :title, style: "display: block" %>
     <%= form.text_field :title %>

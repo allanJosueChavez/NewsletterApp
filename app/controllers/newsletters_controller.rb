@@ -6,8 +6,13 @@ class NewslettersController < ApplicationController
     @newsletters = Newsletter.all
   end
 
+  def posts
+    @posts = Post.all.where(newsletters_id: params[:id])
+  end
+
   # GET /newsletters/1 or /newsletters/1.json
   def show
+    @subscribed = Subscription.find_by(users_id: current_user.id, newsletters_id: (params[:id]))
   end
 
   # GET /newsletters/new
@@ -57,14 +62,45 @@ class NewslettersController < ApplicationController
     end
   end
 
+  def subscribe
+    respond_to do |format|
+      if Subscription.find_or_create_by(users_id: current_user.id, newsletters_id: (params[:id]))
+        @newsletter = Newsletter.find_by(id:params[:id])
+        format.html { redirect_to newsletter_url(@newsletter), notice: "You have subscribed successfully to this newsletter!" }
+        format.json { render :show, status: :ok, location: @newsletter }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @newsletter.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def unsubscribe
+    subscription = Subscription.find_by(users_id: current_user.id, newsletters_id: (params[:id]))
+    respond_to do |format|
+        if subscription.destroy
+          format.html { redirect_to newsletter_url(params[:newsletter]), notice: "You have unsubscribed succesfully from this newsletter!" }
+          format.json { render :show, status: :ok, location: @newsletter }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @newsletter.errors, status: :unprocessable_entity }
+        end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_newsletter
-      @newsletter = Newsletter.find(params[:id])
+      begin
+        @newsletter = Newsletter.find(params[:id])
+      rescue
+        flash[:error] = "Newsletter was deleted or it does not exist"
+        redirect_to :action => :index
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def newsletter_params
-      params.require(:newsletter).permit(:topic, :name, :description, :users_id)
+      params.require(:newsletter).permit(:topic, :name, :description, :users_id, :r_rated)
     end
 end

@@ -3,6 +3,11 @@
 <%= render @newsletter %>
 
 <div>
+
+<%= button_to 'Subscribe',  newsletter_subscription_new_path(:newsletter => @newsletter,:newsletter_id => @newsletter.id), method: :get, class:'btn btn-secondary float-right' unless @subscribed%>
+<%= button_to 'Unsubscribe',  newsletter_subscription_destroy_path(:newsletter => @newsletter,:newsletter_id => @newsletter.id), method: :delete, :action => 'unsubscribe', class:'btn btn-secondary float-right' if @subscribed %>
+<%= link_to 'Create a new post',  newsletter_post_new_path(:newsletter_id => @newsletter.id) %>
+
   <%= link_to "Edit this newsletter", edit_newsletter_path(@newsletter) %> |
   <%= link_to "Back to newsletters", newsletters_path %>
 

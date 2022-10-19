@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_18_164244) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_19_181447) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_18_164244) do
     t.string "topic", default: ""
     t.string "name", default: ""
     t.string "description", default: ""
-    t.boolean "t_rated", default: false
+    t.boolean "r_rated", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "users_id"
@@ -34,6 +34,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_18_164244) do
     t.bigint "newsletters_id"
     t.index ["newsletters_id"], name: "index_posts_on_newsletters_id"
     t.index ["users_id"], name: "index_posts_on_users_id"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "users_id"
+    t.bigint "newsletters_id"
+    t.index ["newsletters_id"], name: "index_subscriptions_on_newsletters_id"
+    t.index ["users_id"], name: "index_subscriptions_on_users_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -54,4 +63,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_18_164244) do
   add_foreign_key "newsletters", "users", column: "users_id"
   add_foreign_key "posts", "newsletters", column: "newsletters_id"
   add_foreign_key "posts", "users", column: "users_id"
+  add_foreign_key "subscriptions", "newsletters", column: "newsletters_id"
+  add_foreign_key "subscriptions", "users", column: "users_id"
 end

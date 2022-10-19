@@ -6,6 +6,8 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
+
+
   # GET /posts/1 or /posts/1.json
   def show
   end
@@ -21,9 +23,12 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
+    # @patient = Patient.find(params[:id])
+    # @newsletter = Newsletter.find_by(id:params[:newsletter_id])
+    # @post.newsletters_id = @newsletter.id
     @post = Post.new(post_params)
-    # @newsletter.users_id = current_user.id I need to make the post know who is his dad
-    @newsletter.users_id = current_user.id
+    # @post.newsletters_id = params[:newsletter_id];
+    @post.users_id = current_user.id
     respond_to do |format|
       if @post.save
         format.html { redirect_to post_url(@post), notice: "Post was successfully created." }
@@ -61,11 +66,16 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id])
+      begin
+        @post = Post.find(params[:id])
+      rescue
+        flash[:error] = "User not found"
+        redirect_to :action => :index
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :description, :newsletters_id, :users_id)
+      params.require(:post).permit(:title, :description, :newsletters_id, :users_id, :newsletter_id)
     end
 end

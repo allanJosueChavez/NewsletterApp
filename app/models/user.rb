@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   validates :age, presence:true, numericality:true
-  has_many :newsletters
-  has_many :posts
+  has_many :newsletters, foreign_key: "users_id", dependent: :destroy
+  has_many :posts, foreign_key: "users_id", dependent: :destroy
+  has_many :subscribtions, foreign_key: "users_id", dependent: :destroy
+
 end
