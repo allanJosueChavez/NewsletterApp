@@ -1,11 +1,32 @@
-<p style="color: green"><%= notice %></p>
-<h1>FEED</h1>
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
-  <% end %>
+ <%= render "navbar" %>
+<div class="container">
+  <p style="color: green"><%= notice %></p>
+  <h1>FEED</h1>
+  <div id="posts"  >
+    <div class="">
+      <% @posts.each do |post| %>
+        <div class="bg-light p-3 border bg-light" >
+          <div class="row">
+            <div class="col">
+              <%= render post %>
+            </div>
+            <br/>
+            <div class="col align-self-end">
+              <%= image_tag(post.image, width: "300px", height: "auto") if post.image.attached?%><br/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-auto">
+              <%= button_to "Edit this post", edit_post_path(post), method: :get, class:'btn btn-sm btn-secondary float-right' if post.users_id == current_user.id%>
+            </div>
+            <div class="col-md-auto">
+              <%= button_to "Destroy this post", @post, method: :delete, class:'btn btn-sm btn-danger float-right' if post.users_id == current_user.id%>
+              <% button_to "Show this post", post, method: :get, class:'btn btn-secondary float-right' %>
+            </div>
+          </div>
+        </div>
+        <br/>
+      <% end %>
+    </div>
+  </div>
 </div>
-<%= link_to "New post", new_post_path %>
