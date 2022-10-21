@@ -1,0 +1,12 @@
+<p style="color: green"><%= notice %></p>
+<h1>Newsletters I'm subscribed</h1>
+<div id="newsletters">
+  <% @newsletters.each do |newsletter| %>
+    <%= render newsletter %>
+    <p>
+      <%= link_to "Show this newsletter", newsletter %>
+    </p>
+  <% end %>
+</div>
+<%= link_to "New newsletter", new_newsletter_path %> <br>
+<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>

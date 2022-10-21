@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+<h1>My Newsletters</h1>
+<div id="newsletters">
+  <% if @newsletters.length == 0 %>
+    <h4>Oh! It seems that you don't have any newsletter yet, click below to create a new one and START SHARING TODAY!</h4>
+  <% else %>
+    <% @newsletters.each do |newsletter| %>
+      <%= render newsletter %>
+      <p>
+        <%= link_to "Show this newsletter", newsletter %>
+      </p>
+    <% end %>
+  <% end %>
+</div>
+<%= link_to "New newsletter", new_newsletter_path %> <br>
+<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>

@@ -14,16 +14,23 @@
 # Configure Using Gemfile
 # gem "pg"
 #
-default: &default
+
+common: &common
   adapter: postgresql
+  pool: 30
+  host: 127.0.0.1
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  reconnect: false
+  
 
 development:
-  <<: *default
-  database: newsletter_app_development
+  <<: *common
+  username: <%= Rails.application.credentials.username%>
+  password: <%= Rails.application.credentials.password%>
+  database: "newsletter_dev"
+  port: "5432"
+
+
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -55,9 +62,14 @@ development:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
+
 test:
-  <<: *default
-  database: newsletter_app_test
+  <<: *common
+  username: <%= Rails.application.credentials.username%>
+  password: <%= Rails.application.credentials.password%>
+  database: "newsletter_test"
+  port: "5432"
+
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -79,8 +91,10 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+
 production:
-  <<: *default
-  database: newsletter_app_production
-  username: newsletter_app
-  password: <%= ENV["NEWSLETTER_APP_DATABASE_PASSWORD"] %>
+  <<: *common
+  username: <%= Rails.application.credentials.username%>
+  password: <%= Rails.application.credentials.password%>
+  database: "newsletter_test"
+  port: "5432"
