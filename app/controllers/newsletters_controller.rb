@@ -1,9 +1,46 @@
+require 'date'
+
 class NewslettersController < ApplicationController
   before_action :set_newsletter, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
   # GET /newsletters or /newsletters.json
   def index
-    @newsletters = Newsletter.all
+    @newsletters = Newsletter.joins("INNER JOIN subscriptions ON subscriptions.newsletters_id = newsletters.id AND subscriptions.users_id = #{current_user.id}")
+  end
+
+  def discover
+    birthday = current_user.birthdate
+    @age = ((12*(Date.today.year- birthday.year))-(birthday.month - Date.today.month))/12 
+    if @age >= 18 
+      @newsletters = Newsletter.all
+    else
+      @newsletters = Newsletter.all.where(r_rated:false)
+    end
+  end
+
+  def mine
+    @newsletters = Newsletter.all.where(users_id:current_user.id)
+  end
+
+  def feed
+     @newsletters = Newsletter.joins("INNER JOIN subscriptions ON subscriptions.newsletters_id = newsletters.id AND subscriptions.users_id = #{current_user.id}")
+    #  @posts = {{id: 1,
+    #  topic: "NEWSLETTER 1",
+    #  name: "NEWSLETTER 1",
+    #  description: "NEWSLETTER 1",
+    #  r_rated: false,
+    #  users_id: 2}}
+    #  count = 0
+     @posts = []
+     @newsletters.each do |newsletter|
+      newsletter_posts = Post.all.where(newsletters_id: newsletter.id)
+      newsletter_posts.each  do |post|
+        @posts.push(post)
+      end
+      @posts.sort_by{ |post| post.created_at }.reverse
+     end
+  
+    # @posts = Post.all.where(newsletters_id:1)
   end
 
   def posts
@@ -101,6 +138,6 @@ class NewslettersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def newsletter_params
-      params.require(:newsletter).permit(:topic, :name, :description, :users_id, :r_rated)
+      params.require(:newsletter).permit(:topic, :name, :description, :users_id, :r_rated, :background)
     end
 end

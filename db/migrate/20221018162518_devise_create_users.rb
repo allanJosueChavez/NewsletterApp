@@ -15,7 +15,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       t.datetime :remember_created_at
 
       ## Extra fields
-      t.integer :age, default: 0
+      t.string :full_name
+      t.date :birthdate
       t.string :bio, default: ""
       t.string :username, default: ""
 

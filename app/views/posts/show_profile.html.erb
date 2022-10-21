@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+<div>
+  <% @user  = User.find_by(id: params[:user_id]) %>
+  <p>
+    <strong>EMAIL:</strong>
+    <%= @user.email %>
+  </p>
+  <p>
+    <strong>USERID:</strong>
+    <%= @user.id %>
+  </p>
+  <%= image_tag(@user.avatar, width: "100px") if @user.avatar.attached?%>
+</div>

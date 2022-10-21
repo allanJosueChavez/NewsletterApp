@@ -6,4 +6,5 @@ class Newsletter < ApplicationRecord
     validates :name, presence:true
     validates :topic, presence:true
     validates :users_id, presence:true
+    has_one_attached :background
 end

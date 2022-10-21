@@ -5,8 +5,8 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all
   end
-
-
+  def show_profile
+  end
 
   # GET /posts/1 or /posts/1.json
   def show
@@ -23,14 +23,12 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
-    # @patient = Patient.find(params[:id])
-    # @newsletter = Newsletter.find_by(id:params[:newsletter_id])
-    # @post.newsletters_id = @newsletter.id
     @post = Post.new(post_params)
-    # @post.newsletters_id = params[:newsletter_id];
     @post.users_id = current_user.id
     respond_to do |format|
       if @post.save
+        @author = User.find_by(id:@post.users_id)
+        PostMailer.with(author: @author, post:@post).post_created.deliver_later
         format.html { redirect_to post_url(@post), notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else
@@ -76,6 +74,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :description, :newsletters_id, :users_id, :newsletter_id)
+      params.require(:post).permit(:title, :description, :newsletters_id, :users_id, :image)
     end
 end
