@@ -11,25 +11,26 @@
   <% end %>
   <div>
     <%= form.label :topic, style: "display: block" %>
-    <%= form.select :topic, options_for_select(["Academic", "Disciplines", "Busines", "Communication", "Concepts", "Culture", "Economy", "Educatio", "Energy", "Engineering", "Entertainment", "Entities", "Ethics", "Food and drink", "Geography", "Government", "Health", "History",  "Human behavior", "Humanities", "Information", "Internet", "Knowledge", "Language", "Law", "Life", "Mass media", "Mathematic", "Military", "Nature", "People", "Philosophy", "Politics", "Religion", "Science",  "Society",  "Sports", "Technology",  "Time Universe"], newsletter.topic) %>
+    <%= form.select :topic, options_for_select(["Academic", "Disciplines", "Busines", "Communication", "Concepts", "Culture", "Economy", "Education", "Energy", "Engineering", "Entertainment", "Entities", "Ethics", "Food and drink", "Geography", "Government", "Health", "History",  "Human behavior", "Humanities", "Information", "Internet", "Knowledge", "Language", "Law", "Life", "Mass media", "Mathematic", "Military", "Nature", "People", "Philosophy", "Politics", "Religion", "Science",  "Society",  "Sports", "Technology",  "Time Universe"], newsletter.topic) %>
   </div>
   <div>
     <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, size: 50%>
   </div>
   <div>
     <%= form.label :description, style: "display: block" %>
-    <%= form.text_field :description %>
+     <%= form.text_area :description, :cols => "70", :rows => "8" %>
   </div>
   <div>
     <p>Newsletter background:</p>
-    <%= form.file_field :background %>
-    <%= image_tag(newsletter.background, width: "100px") if newsletter.background.attached?%>
+    <%= form.file_field :background %> <br/>
+    <%= image_tag(newsletter.background, width: "200", height: "auto") if newsletter.background.attached?%>
   </div>
+  <br/>
   <div>
     <label>+18 Rated</label> <br/>
     <%= form.select :r_rated, options_for_select([[:false],[:true]], newsletter.r_rated) %>
-  </div>
+  </div><br/>
   <div>
     <%= form.submit class:'btn btn-success float-right' %>
   </div>

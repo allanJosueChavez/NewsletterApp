@@ -1,11 +1,33 @@
-<p style="color: green"><%= notice %></p>
-<%= render @newsletter %>
-<div>
-  <%= button_to 'Subscribe',  newsletter_subscription_new_path(:newsletter => @newsletter,:newsletter_id => @newsletter.id), method: :get, class:'btn btn-secondary float-right' unless @subscribed%>
-  <%= button_to 'Unsubscribe',  newsletter_subscription_destroy_path(:newsletter => @newsletter,:newsletter_id => @newsletter.id), method: :delete, :action => 'unsubscribe', class:'btn btn-secondary float-right' if @subscribed %>
-  <%= link_to 'Create a new post',  newsletter_post_new_path() %>
-  <%= link_to "Edit this newsletter", edit_newsletter_path(@newsletter) %> |
-  <%= link_to "Posts of this newsletter", newsletter_posts_path(@newsletter) %> |
-  <%= link_to "Back to newsletters", newsletters_path %>
-  <%= button_to "Destroy this newsletter", @newsletter, method: :delete %>
+<%= render "navbar" %>
+<br/>
+<div class="container">
+  <p style="color: green"><%= notice %></p>
+  <%= render @newsletter %>
+          <div class="col align-self-end col col-lg-2">
+          <%= image_tag(@newsletter.background, width: "300px", height: "auto", class:"justify-content-end") if @newsletter.background.attached?%><br/>
+        </div><br/>
+      <div class="col-md-auto">
+      <%= button_to 'Subscribe',  newsletter_subscription_new_path(:newsletter => @newsletter,:newsletter_id => @newsletter.id), method: :get, class:'btn btn-lg btn-success float-right' unless @subscribed%>
+    </div>
+    <div class="col-md-auto">
+      <%= button_to 'Unsubscribe',  newsletter_subscription_destroy_path(:newsletter => @newsletter,:newsletter_id => @newsletter.id), method: :delete, :action => 'unsubscribe', class:'btn btn-lg btn-warning float-right' if @subscribed %>
+    </div>
+    <br/>
+  <div class="row">
+    <div class="col-md-auto">
+      <%= link_to 'Create a new post',  newsletter_post_new_path(), class:'btn btn-outline-success' %>
+    </div>
+    <div class="col-md-auto">
+      <%= link_to "Posts of this newsletter", newsletter_posts_path(@newsletter), class:'btn btn-outline-warning' %> 
+    </div>
+
+    <div class="col-md-auto">
+      <%= button_to "Edit this newsletter", edit_newsletter_path(@newsletter), method: :get, class:'btn  btn-secondary float-right' if @newsletter.users_id == current_user.id%>
+    </div>
+    <div class="col-md-auto">
+      <%= button_to "Destroy this newsletter", @newsletter, method: :delete, class:'btn  btn-danger float-right' if @newsletter.users_id == current_user.id%>
+      <% button_to "Show this newsletter", @newsletter, method: :get, class:'btn btn-secondary float-right' %>
+    </div>
+  </div>
 </div>
+

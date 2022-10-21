@@ -29,7 +29,7 @@
         <li class="nav-item justify-content-end" >
           <a class="nav-link" href="/users/sign_out">Log out</a>
         </li>
-        <%= image_tag(current_user.avatar, width: "40px", height: "40px") if current_user.avatar.attached?%>
+        <%= image_tag(current_user.avatar, width: "40px", height: "auto") if current_user.avatar.attached?%>
       </ul>
     </div>
   </div>

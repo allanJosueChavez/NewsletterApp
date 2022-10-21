@@ -3,9 +3,11 @@ require 'date'
 class NewslettersController < ApplicationController
   before_action :set_newsletter, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  
   # GET /newsletters or /newsletters.json
   def index
     @newsletters = Newsletter.joins("INNER JOIN subscriptions ON subscriptions.newsletters_id = newsletters.id AND subscriptions.users_id = #{current_user.id}")
+    @subscribed = Subscription.find_by(users_id: current_user.id, newsletters_id: (params[:id]))
   end
 
   def discover
@@ -45,6 +47,7 @@ class NewslettersController < ApplicationController
 
   def posts
     @posts = Post.all.where(newsletters_id: params[:id])
+    @newsletter = Newsletter.find_by(id: params[:id])
   end
 
   # GET /newsletters/1 or /newsletters/1.json

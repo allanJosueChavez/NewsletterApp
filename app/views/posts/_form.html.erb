@@ -12,7 +12,7 @@
   <%= form.hidden_field :newsletters_id, value: params[:id] if @action == "new"%>
   <div>
     <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, size: 50 %>
   </div>
   <div>
     <%= form.label :description, style: "display: block" %>
@@ -20,10 +20,11 @@
   </div>
   <div>
     <p>Post image:</p>
-    <%= form.file_field :image %>
-    <%= image_tag(post.image, width: "100px") if post.image.attached?%>
+    <%= form.file_field :image %><br/>
+    <%= image_tag(post.image, width: "300px") if post.image.attached?%>
   </div>
+  <br/>
   <div>
-    <%= form.submit %>
+    <%= form.submit class:'btn btn-lg btn-success float-right'%>
   </div>
 <% end %>

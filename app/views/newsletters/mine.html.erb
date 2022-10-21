@@ -1,16 +1,56 @@
-<p style="color: green"><%= notice %></p>
-<h1>My Newsletters</h1>
-<div id="newsletters">
-  <% if @newsletters.length == 0 %>
-    <h4>Oh! It seems that you don't have any newsletter yet, click below to create a new one and START SHARING TODAY!</h4>
-  <% else %>
-    <% @newsletters.each do |newsletter| %>
-      <%= render newsletter %>
-      <p>
-        <%= link_to "Show this newsletter", newsletter %>
-      </p>
-    <% end %>
-  <% end %>
+<%= render "navbar" %>
+<div class="container"><br/>
+  <p style="color: green"><%= notice %></p>
+  <h1>My Newsletters</h1><br/>
+  <div id="newsletters">
+    <% if @newsletters.length == 0 %>
+      <div style="text-align:center" >
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <strong>
+          <h3 class="text-muted">Oh! It seems that you have not created newsletter yet, click below to create a new one and  <br/>
+            START SHARING TODAY!</h3>
+        </strong>
+        <h5 class="text-muted">Click the button below to discover some newsletters!</h5>
+        <br/>
+        <br/>
+        <br/>
+        <%= link_to 'Create a new newsletter',  new_newsletter_path, class:'btn btn-lg btn-outline-secondary'%>
+      </div>
+      <h4></h4>
+    <% else %>
+      <% @newsletters.each do |newsletter| %>
+       
+<div class="container">
+    <div class="bg-light p-3 border bg-light" >
+      <div class="row">
+        <div class="col-8">
+          <%= render newsletter %>
+        </div>
+        <br/>
+        <div class="col align-self-end col col-lg-2">
+          <%= image_tag(newsletter.background, width: "300px", height: "auto", class:"justify-content-end") if newsletter.background.attached?%><br/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-auto">
+          <%= button_to "Edit this newsletter", edit_newsletter_path(newsletter), method: :get, class:'btn btn-sm btn-secondary float-right' if newsletter.users_id == current_user.id%>
+        </div>
+        <div class="col-md-auto">
+          <%= button_to "Destroy this newsletter", newsletter, method: :delete, class:'btn btn-sm btn-danger float-right' if newsletter.users_id == current_user.id%>
+          <% button_to "Show this newsletter", newsletter, method: :get, class:'btn btn-secondary float-right' %>
+        </div>
+      </div>
+    </div>
+    <br/>
 </div>
-<%= link_to "New newsletter", new_newsletter_path %> <br>
-<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+
+      <% end %>
+    <% end %>
+  </div>
+</div>
+

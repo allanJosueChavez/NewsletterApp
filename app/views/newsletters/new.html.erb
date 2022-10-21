@@ -1,9 +1,8 @@
  
-<div class="container-fluid">
-  <h1>New newsletter</h1>
+ <%= render "navbar" %>
+<div class="container">
+<br>
+  <h1>Create a newsletter</h1>
   <%= render "form", newsletter: @newsletter %>
   <br>
-  <div>
-    <%= link_to "Back to newsletters", newsletters_path %>
-  </div>
 </div>

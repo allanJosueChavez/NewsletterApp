@@ -1,6 +1,6 @@
 <h1>A recent post!</h1>
-<%= @author.email %> has created a post named <%= @post.title %>
+<%= @author.email %> has created a post named "<%= @post.title %>"
 <p>
-  Go and check it out!
+  Go and check it out! <br/>
+  <%= link_to 'Click here to go the post!', post_url(@post) %>
 </p>
-<p><%= link_to 'Click here to go the post!', post_url(@post) %></p>
