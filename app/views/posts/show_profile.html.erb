@@ -1,13 +1,26 @@
-<p style="color: green"><%= notice %></p>
-<div>
-  <% @user  = User.find_by(id: params[:user_id]) %>
-  <p>
-    <strong>EMAIL:</strong>
-    <%= @user.email %>
-  </p>
-  <p>
-    <strong>USERID:</strong>
-    <%= @user.id %>
-  </p>
-  <%= image_tag(@user.avatar, width: "100px") if @user.avatar.attached?%>
-</div>
+ <%= render "navbar" %>
+<div class="container ">
+<br/>
+  <div class="row bg-light p-3 border bg-light">
+    <div class="col-md-auto">
+      <% @user  = User.find_by(id: params[:user_id]) %>
+      <%= image_tag(@user.avatar, width: "200px") if @user.avatar.attached?%>
+    </div>
+    <div class="col-md-auto">
+    <br/><br/>
+      <p>
+        <strong>EMAIL:</strong>
+        <%= @user.email %>
+      </p>
+      <p>
+        <strong>BIO:</strong>
+        <%= @user.bio %>
+      </p>
+      <p>
+        <strong>Amount of posts:</strong>
+        <%= Post.all.where(users_id:@user.id).count %>
+      </p>
+     </div>
+  </div>
+  <br/>
+  <p style="color: green"><%= notice %></p>

@@ -1,11 +1,30 @@
-<p style="color: green"><%= notice %></p>
-<h1>Discover some newsletters you may be interested in...</h1>
-<div id="newsletters">
-  <% @newsletters.each do |newsletter| %>
-    <%= render newsletter %>
-    <p>
-      <%= link_to "Show this newsletter", newsletter %>
-    </p>
-  <% end %>
-</div>
-<%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+ <%= render "navbar" %>
+<div class="container"><br/>
+  <p style="color: green"><%= notice %></p>
+  <h1  style="color: #f09c0c">Discover some newsletters you may be interested in...</h1> <br/>
+  <div id="newsletters">
+    <div class="container">
+      <% @newsletters.each do |newsletter| %>
+        <div class="bg-light p-3 border bg-light" >
+          <div class="row">
+            <div class="col-8">
+              <%= render newsletter %>
+            </div>
+            <br/>
+            <div class="col align-self-end col col-lg-2">
+              <%= image_tag(newsletter.background, width: "300px", height: "auto", class:"justify-content-end") if newsletter.background.attached?%><br/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-auto">
+              <%= button_to "Edit this newsletter", edit_newsletter_path(newsletter), method: :get, class:'btn btn-sm btn-secondary float-right' if newsletter.users_id == current_user.id%>
+            </div>
+            <div class="col-md-auto">
+              <%= button_to "Destroy this newsletter", newsletter, method: :delete, class:'btn btn-sm btn-danger float-right' if newsletter.users_id == current_user.id%>
+              <% button_to "Show this newsletter", newsletter, method: :get, class:'btn btn-secondary float-right' %>
+            </div>
+          </div>
+        </div>
+        <br/>
+      <% end %>
+    </div>

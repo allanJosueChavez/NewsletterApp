@@ -1,17 +1,19 @@
 <div id="<%= dom_id newsletter %>">
+  <h4>
+    <strong> <%= link_to "#{newsletter.name}", newsletter_path(newsletter) , {:style=>'text-decoration:none' } %></strong><br/>
+  </h4>
   <p>
     <strong>Topic:</strong>
     <%= newsletter.topic %>
-  </p>
-
-  <p>
-    <strong>Name:</strong>
-    <%= newsletter.name %>
-  </p>
-
-  <p>
+    <br/>
     <strong>Description:</strong>
     <%= newsletter.description %>
+    <br/>
+    <strong>Author:</strong> <% @username = User.find_by(id:newsletter.users_id).email %>
+    <strong> <%= link_to "#{@username}", profile_path(:user_id => newsletter.users_id) %></strong><br/>
+    <strong>Post date: </strong><%= newsletter.created_at.to_date %><br/>
+    <% @amount = Post.all.where(newsletters_id:newsletter.id).count %>
+    <strong> Amount of posts published:</strong> <%= @amount%>
+    <br/>
   </p>
-
 </div>

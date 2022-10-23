@@ -1,7 +1,11 @@
-<h1>New post</h1>
-<% @action = "new" %>
-<%= render "form", post: @post %>
-<br>
-<div>
-  <%= link_to "Back to posts", posts_path %>
+ <%= render "navbar" %>
+<div class="container">
+<br/>
+  <h1>New post</h1>
+  <% @action = "new" %>
+  <%= render "form", post: @post %>
+  <br>
+  <div>
+   <%= link_to "Go back to the newsletter", :back , class:'btn btn-outline-warning' %> 
+  </div>
 </div>

@@ -11,6 +11,9 @@ gem "rails", "~> 7.0.4"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
+# Bootstrap
+gem 'bootstrap', '~> 5.2', '>= 5.2.1'
+
 # Letter Opener Gem
 gem "letter_opener", group: :development
 gem 'mail'
